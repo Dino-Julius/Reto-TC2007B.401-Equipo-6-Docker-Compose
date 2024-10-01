@@ -5,7 +5,9 @@ require('dotenv').config();  // Cargar las variables de entorno desde el archivo
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const userRoutes = require('./routes/userRoutes'); // Cambia esto según tu estructura de rutas
+const userRoutes = require('./routes/userRoutes');
+const imageRoutes = require('./routes/imageRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,7 +17,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Rutas
+console.log('Servidor reiniciado'); // Agrega esta línea
+
 app.use('/api', userRoutes);
+app.use('/api', imageRoutes);
+app.use('/api', productRoutes);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
