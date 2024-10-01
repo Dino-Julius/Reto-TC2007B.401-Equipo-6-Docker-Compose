@@ -13,6 +13,7 @@ yarn-error.log
 # Archivos de salida de Docker
 docker-compose.override.yml
 docker-compose.override.yml
+docker-compose.yml.save
 
 # Archivos de logs
 logs/
