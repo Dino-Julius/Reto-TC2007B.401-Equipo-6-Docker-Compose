@@ -1,0 +1,3 @@
+[submodule "web"]
+	path = web
+	url = https://github.com/Sebastian-Espinoza-25/Reto-TC2007B.401-Equipo-6-Web.git
