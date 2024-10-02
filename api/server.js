@@ -6,7 +6,6 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
-const imageRoutes = require('./routes/imageRoutes');
 const productRoutes = require('./routes/productRoutes');
 
 const app = express();
@@ -20,7 +19,6 @@ app.use(bodyParser.json());
 console.log('Servidor reiniciado'); // Agrega esta línea
 
 app.use('/api', userRoutes);
-app.use('/api', imageRoutes);
 app.use('/api', productRoutes);
 
 // Iniciar el servidor
