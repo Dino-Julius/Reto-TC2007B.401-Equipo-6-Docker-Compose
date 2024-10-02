@@ -127,7 +127,8 @@ create table if not exists Posts (
   partner_id bigint references partners (partner_id),
   date date,
   summary text,
-  file_path text
+  file_path text,
+  category text
 );
 comment on table Posts is 'Stores post information including title, content, user, date, and summary.';
 
