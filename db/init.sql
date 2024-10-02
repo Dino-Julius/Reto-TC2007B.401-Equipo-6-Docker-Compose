@@ -35,7 +35,7 @@ create table if not exists Users (
   email text unique,
   password text
 );
-comment on table users is 'Stores user information including personal details and login credentials.';
+comment on table Users is 'Stores user information including personal details and login credentials.';
 
 
 -- Table: addresses
@@ -47,7 +47,7 @@ create table if not exists Addresses (
   state text,
   country text
 );
-comment on table addresses is 'Stores addresses associated with users.';
+comment on table Addresses is 'Stores addresses associated with users.';
 
 
 -- Table: products
@@ -61,19 +61,22 @@ create table if not exists Products (
   category text,
   rating double precision
 );
-comment on table products is 'Stores product details, including SKU, name, price, description, dimensions, image, category, and rating.';
+comment on table Products is 'Stores product details, including SKU, name, price, description, dimensions, image, category, and rating.';
 
 
 -- Table: orders
 create table if not exists Orders (
-  order_id bigint primary key generated always as identity,
-  order_number text unique,
-  user_id bigint references users (user_id),
-  shipping_address_id bigint references addresses (address_id),
-  shipping_status text
+    order_id bigint primary key generated always as identity,
+    order_number text unique,
+    user_id bigint references users (user_id),
+    shipping_address_id bigint references addresses (address_id),
+    shipping_status text,
+    order_date date,
+    delivery_date date,
+    total_price numeric
 );
-comment on table orders is 'Stores order information including user, shipping address, and shipping status.';
 
+comment on table orders is 'Stores order information including user, shipping address, shipping status, order date, delivery date, and total price.';
 
 -- Table: orderitems
 create table if not exists Orderitems (
@@ -83,7 +86,23 @@ create table if not exists Orderitems (
   quantity int,
   price numeric
 );
-comment on table orderitems is 'Stores items within an order, linking products to orders.';
+
+-- Function to update order total price
+create or replace function update_order_total() returns trigger as $$
+BEGIN
+  -- Calculate the new total price
+  UPDATE orders
+  SET total_price = (SELECT SUM(price * quantity) FROM orderitems WHERE order_id = NEW.order_id)
+  WHERE order_id = NEW.order_id;
+  RETURN NEW;
+END;
+$$ language plpgsql;
+
+-- Trigger to call the function after insert, delete, or update on orderitems
+create trigger update_order_total_trigger
+after insert or delete or update on orderitems
+for each row
+execute function update_order_total();
 
 
 -- Table: partners
@@ -97,22 +116,24 @@ create table if not exists Partners (
   account_status boolean,
   account_type text    
 );
-comment on table partners is 'Stores partner information, including personal details and account status.';
+comment on table Partners is 'Stores partner information, including personal details and account status.';
 
 
 -- Table: posts
 create table if not exists Posts (
   post_id bigint primary key generated always as identity,
-  file_path text,
-  image_path text,
   title text,
-  author_id bigint references partners (partner_id)
+  content text,
+  partner_id bigint references partners (partner_id),
+  date date,
+  summary text,
+  file_path text
 );
-comment on table posts is 'Stores post information, including file paths, images, title, and author.';
+comment on table Posts is 'Stores post information including title, content, user, date, and summary.';
+
 
 -- Table: kits
 create table if not exists Kits (
-
   kit_id bigint primary key generated always as identity,
   title text,
   description text,
@@ -129,4 +150,4 @@ create table if not exists Kititems (
   kit_id bigint references kits (kit_id),
   product_sku text references products (sku)
 );
-comment on table kititems is 'Links products to kits, indicating which products are part of a kit.';
+comment on table Kititems is 'Links products to kits, indicating which products are part of a kit.';
