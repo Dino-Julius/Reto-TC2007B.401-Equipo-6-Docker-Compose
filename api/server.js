@@ -7,6 +7,7 @@ const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const partnerRoutes = require('./routes/partnerRoutes');
 const addressRoutes = require('./routes/addressRoutes');
+const postRoutes = require('./routes/postRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +34,7 @@ app.use('/api', userRoutes);
 app.use('/api', productRoutes);
 app.use('/api', partnerRoutes);
 app.use('/api', addressRoutes);
+app.use('/api', postRoutes);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
