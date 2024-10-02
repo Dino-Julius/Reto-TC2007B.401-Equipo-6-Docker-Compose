@@ -1,6 +1,4 @@
-// models/userModel.js
-
-const pool = require('./db'); // Importa el pool desde db.js
+const pool = require('./db');
 
 // Función para obtener todos los usuarios
 const getUsers = async () => {

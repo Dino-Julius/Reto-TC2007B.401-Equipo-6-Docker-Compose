@@ -1,6 +1,4 @@
-// models/addressModel.js
-
-const pool = require('./db'); // Importa el pool desde db.js
+const pool = require('./db');
 
 // Función para crear una nueva dirección
 const createAddress = async (addressData) => {

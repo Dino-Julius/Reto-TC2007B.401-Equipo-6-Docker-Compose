@@ -1,5 +1,3 @@
-// controllers/postController.js
-
 const postModel = require('../models/postModel');
 
 // Crear un nuevo post

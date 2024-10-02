@@ -1,6 +1,4 @@
-// models/productModel.js
-
-const pool = require('./db'); // Importa el pool desde db.js // Importa el pool de conexión de pg
+const pool = require('./db');
 
 // Función para crear un nuevo producto
 const createProduct = async (productData) => {

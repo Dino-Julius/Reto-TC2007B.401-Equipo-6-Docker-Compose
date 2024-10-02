@@ -1,5 +1,3 @@
-// models/postModel.js
-
 const pool = require('./db');
 
 // Función para crear un nuevo post

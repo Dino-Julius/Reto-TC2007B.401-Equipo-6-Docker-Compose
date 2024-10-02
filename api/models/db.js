@@ -1,6 +1,4 @@
-// models/db.js
-
-const { Pool } = require('pg'); // Importa el pool de conexión de pg
+const { Pool } = require('pg');
 
 // Configura la conexión a la base de datos
 const pool = new Pool({

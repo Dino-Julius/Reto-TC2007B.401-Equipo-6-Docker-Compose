@@ -1,5 +1,3 @@
-// controllers/productController.js
-
 const productModel = require('../models/productModel');
 
 // Crear un nuevo producto
