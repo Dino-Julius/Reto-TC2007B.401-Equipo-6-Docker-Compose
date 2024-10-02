@@ -95,7 +95,7 @@ create table if not exists Partners (
   email text unique,
   password text,
   account_status boolean,
-  account_type text
+  account_type text    
 );
 comment on table partners is 'Stores partner information, including personal details and account status.';
 
@@ -130,4 +130,3 @@ create table if not exists Kititems (
   product_sku text references products (sku)
 );
 comment on table kititems is 'Links products to kits, indicating which products are part of a kit.';
-
