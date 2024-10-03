@@ -86,6 +86,7 @@ create table if not exists Orderitems (
   quantity int,
   price numeric
 );
+comment on table Orderitems is 'Stores items associated with orders, including product SKU, quantity, and price.';
 
 -- Function to update order total price
 create or replace function update_order_total() returns trigger as $$
@@ -123,14 +124,13 @@ comment on table Partners is 'Stores partner information, including personal det
 create table if not exists Posts (
   post_id bigint primary key generated always as identity,
   title text,
-  content text,
-  partner_id bigint references partners (partner_id),
-  date date,
   summary text,
-  file_path text,
-  category text
+  date date,
+  category text,
+  partner_id bigint references partners (partner_id),
+  file_path text
 );
-comment on table Posts is 'Stores post information including title, content, user, date, and summary.';
+comment on table Posts is 'Stores post information including title, summary, date, category, partner, and file path.';
 
 
 -- Table: kits

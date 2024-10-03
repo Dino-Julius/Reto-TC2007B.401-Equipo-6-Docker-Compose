@@ -2,10 +2,10 @@ const pool = require('./db');
 
 // Función para crear un nuevo post
 const createPost = async (postData) => {
-    const { title, content, partner_id, date, summary, file_path, category } = postData;
+    const { title, summary, date, category, partner_id, file_path } = postData;
     const res = await pool.query(
-        'INSERT INTO posts (title, content, partner_id, date, summary, file_path, category) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-        [title, content, partner_id, date, summary, file_path, category]
+        'INSERT INTO posts (title, summary, date, category, partner_id, file_path) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [title, summary, date, category, partner_id, file_path]
     );
     return res.rows[0];
 };
@@ -30,10 +30,10 @@ const getAllPosts = async () => {
 
 // Función para actualizar un post por su ID
 const updatePostById = async (post_id, postData) => {
-    const { title, content, partner_id, date, summary, file_path, category } = postData;
+    const { title, summary, date, category, partner_id, file_path } = postData;
     const res = await pool.query(
-        'UPDATE posts SET title = $1, content = $2, partner_id = $3, date = $4, summary = $5, file_path = $6, category = $7 WHERE post_id = $8 RETURNING *',
-        [title, content, partner_id, date, summary, file_path, category, post_id]
+        'UPDATE posts SET title = $1, summary = $2, date = $3, category = $4, partner_id = $5, file_path = $6 WHERE post_id = $7 RETURNING *',
+        [title, summary, date, category, partner_id, file_path, post_id]
     );
     return res.rows[0];
 };

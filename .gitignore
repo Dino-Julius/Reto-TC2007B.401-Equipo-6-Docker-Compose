@@ -45,3 +45,6 @@ Thumbs.db
 *.swo
 *.sublime-project
 *.sublime-workspace
+
+# Archivo de volumenes
+media/

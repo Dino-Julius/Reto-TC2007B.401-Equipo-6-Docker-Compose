@@ -22,8 +22,19 @@ const getProductBySku = async (sku) => {
     return res.rows[0];
 };
 
+// Función para actualizar un producto por su SKU
+const updateProductBySku = async (sku, productData) => {
+    const { name, price, description, dimensions, image_path, category, rating } = productData;
+    const res = await pool.query(
+        'UPDATE products SET name = $1, price = $2, description = $3, dimensions = $4, image_path = $5, category = $6, rating = $7 WHERE sku = $8 RETURNING *',
+        [name, price, description, dimensions, image_path, category, rating, sku]
+    );
+    return res.rows[0];
+};
+
 module.exports = {
     createProduct,
     getAllProducts,
     getProductBySku,
+    updateProductBySku,
 };

@@ -18,5 +18,6 @@ const upload = multer({ storage });
 router.post('/products', upload.single('image_path'), productController.createProduct); // Crear un nuevo producto con carga de imagen
 router.get('/products', productController.getAllProducts); // Obtener todos los productos
 router.get('/products/sku/:sku', productController.getProductBySku); // Obtener un producto por su SKU
+router.put('/products/sku/:sku', upload.single('image_path'), productController.updateProductBySku); // Actualizar un producto por su SKU
 
 module.exports = router;
