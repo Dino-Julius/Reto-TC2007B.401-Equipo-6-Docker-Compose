@@ -60,8 +60,8 @@ create table if not exists Products (
   dimensions text,
   image_path text,
   category text,
-  rating double precision
-  -- TODO: AGREGAR ESTATUS DE HABILITADO O INHABILITADO
+  rating double precision,
+  disponibility boolean
 );
 comment on table Products is 'Stores product details, including SKU, name, price, description, dimensions, image, category, and rating.';
 
