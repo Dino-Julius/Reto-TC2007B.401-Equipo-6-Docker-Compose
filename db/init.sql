@@ -33,7 +33,8 @@ create table if not exists Users (
   gender text,
   phone text,
   email text unique,
-  password text
+  password text,
+  profile_pic text
 );
 comment on table Users is 'Stores user information including personal details and login credentials.';
 
@@ -60,6 +61,7 @@ create table if not exists Products (
   image_path text,
   category text,
   rating double precision
+  -- TODO: AGREGAR ESTATUS DE HABILITADO O INHABILITADO
 );
 comment on table Products is 'Stores product details, including SKU, name, price, description, dimensions, image, category, and rating.';
 
@@ -128,7 +130,8 @@ create table if not exists Posts (
   date date,
   category text,
   partner_id bigint references partners (partner_id),
-  file_path text
+  file_path text,
+  image_path text
 );
 comment on table Posts is 'Stores post information including title, summary, date, category, partner, and file path.';
 
