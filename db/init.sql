@@ -117,7 +117,8 @@ create table if not exists Partners (
   email text unique,
   password text,
   account_status boolean,
-  account_type text    
+  account_type text,
+  profile_pic text
 );
 comment on table Partners is 'Stores partner information, including personal details and account status.';
 
