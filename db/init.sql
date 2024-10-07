@@ -130,7 +130,7 @@ create table if not exists Posts (
   summary text,
   date date,
   category text,
-  partner_id bigint references partners (partner_id),
+  partner_email text references partners (email),
   file_path text,
   image_path text
 );
