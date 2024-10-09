@@ -1,129 +1,116 @@
 # Documentation de la Base de Datos para Zazil en PostgreSQL
 
-## Tabla: users
-| Columna    | Tipo   | Descripción                        |
-|------------|--------|------------------------------------|
-| user_id    | bigint | Identificador único del usuario.   |
-| first_name | text   | Nombre del usuario.                |
-| last_name  | text   | Apellido del usuario.              |
-| birth_date | date   | Fecha de nacimiento del usuario.   |
-| gender     | text   | Género del usuario.                |
-| phone      | text   | Teléfono del usuario.              |
-| email      | text   | Correo electrónico único del usuario. |
-| password   | text   | Contraseña del usuario.            |
+# Descripción de las Tablas
 
-## Tabla: addresses
-| Columna   | Tipo   | Descripción                        |
-|-----------|--------|------------------------------------|
-| address_id| bigint | Identificador único de la dirección. |
-| user_id   | bigint | Referencia al identificador del usuario. |
-| address   | text   | Dirección del usuario.             |
-| city      | text   | Ciudad de la dirección.            |
-| state     | text   | Estado de la dirección.            |
-| country   | text   | País de la dirección.              |
+## Tabla: Users
 
-## Tabla: products
-| Columna     | Tipo             | Descripción                        |
-|-------------|------------------|------------------------------------|
-| sku         | text             | Identificador único del producto (SKU). |
-| name        | text             | Nombre del producto.               |
-| price       | numeric          | Precio del producto.               |
-| description | text             | Descripción del producto.          |
-| dimensions  | text             | Dimensiones del producto.          |
-| image_path  | text             | Ruta de la imagen del producto.    |
-| category    | text             | Categoría del producto.            |
-| rating      | double precision | Calificación del producto.         |
+La tabla `Users` almacena información sobre los usuarios registrados en el sistema.
 
-## Tabla: orders
-| Columna             | Tipo   | Descripción                        |
-|---------------------|--------|------------------------------------|
-| order_id            | bigint | Identificador único del pedido.    |
-| order_number        | text   | Número único del pedido.           |
-| user_id             | bigint | Referencia al identificador del usuario. |
-| shipping_address_id | bigint | Referencia al identificador de la dirección de envío. |
-| shipping_status     | text   | Estado del envío del pedido.       |
+| Nombre de la Columna | Tipo de Datos | Descripción |
+|----------------------|---------------|-------------|
+| `user_id`            | `bigint`      | Identificador único del usuario (clave primaria, generado automáticamente). |
+| `first_name`         | `text`        | Nombre del usuario. |
+| `last_name`          | `text`        | Apellido del usuario. |
+| `birth_date`         | `date`        | Fecha de nacimiento del usuario. |
+| `gender`             | `text`        | Género del usuario. |
+| `phone`              | `text`        | Número de teléfono del usuario. |
+| `email`              | `text`        | Correo electrónico del usuario (único). |
+| `password`           | `text`        | Contraseña del usuario. |
+| `profile_pic`        | `text`        | Ruta de la imagen de perfil del usuario. |
 
-## Tabla: orderitems
-| Columna       | Tipo    | Descripción                        |
-|---------------|---------|------------------------------------|
-| order_item_id | bigint  | Identificador único del ítem del pedido. |
-| order_id      | bigint  | Referencia al identificador del pedido. |
-| product_sku   | text    | Referencia al identificador del producto (SKU). |
-| quantity      | int     | Cantidad del producto en el pedido. |
-| price         | numeric | Precio del producto en el pedido.   |
+## Tabla: Products
 
-## Tabla: partners
-| Columna       | Tipo    | Descripción                        |
-|---------------|---------|------------------------------------|
-| partner_id    | bigint  | Identificador único del socio.     |
-| first_name    | text    | Nombre del socio.                  |
-| last_name     | text    | Apellido del socio.                |
-| birth_date    | date    | Fecha de nacimiento del socio.     |
-| email         | text    | Correo electrónico único del socio. |
-| password      | text    | Contraseña del socio.              |
-| account_status| boolean | Estado de la cuenta del socio.     |
-| account_type  | text    | Tipo de cuenta del socio.          |
+La tabla `Products` almacena información sobre los productos disponibles.
 
-## Tabla: posts
-| Columna   | Tipo   | Descripción                        |
-|-----------|--------|------------------------------------|
-| post_id   | bigint | Identificador único del post.      |
-| file_path | text   | Ruta del archivo del post.         |
-| image_path| text   | Ruta de la imagen del post.        |
-| title     | text   | Título del post.                   |
-| author_id | bigint | Referencia al identificador del socio autor del post. |
+| Nombre de la Columna | Tipo de Datos | Descripción |
+|----------------------|---------------|-------------|
+| `sku`                | `text`        | Código único del producto (clave primaria). |
+| `name`               | `text`        | Nombre del producto. |
+| `price`              | `numeric`     | Precio del producto. |
+| `description`        | `text`        | Descripción del producto. |
+| `dimensions`         | `text`        | Dimensiones del producto. |
+| `image_path`         | `text`        | Ruta de la imagen del producto. |
+| `category`           | `text`        | Categoría del producto. |
+| `rating`             | `double precision` | Calificación del producto. |
+| `disponibility`      | `boolean`     | Disponibilidad del producto. |
 
-## Tabla: kits
-| Columna      | Tipo             | Descripción                        |
-|--------------|------------------|------------------------------------|
-| kit_id       | bigint           | Identificador único del kit.       |
-| title        | text             | Título del kit.                    |
-| description  | text             | Descripción del kit.               |
-| image_path   | text             | Ruta de la imagen del kit.         |
-| special_price| numeric          | Precio especial del kit.           |
-| rating       | double precision | Calificación del kit.              |
+## Tabla: Orders
 
-## Tabla: kititems
-| Columna      | Tipo   | Descripción                        |
-|--------------|--------|------------------------------------|
-| kit_item_id  | bigint | Identificador único del ítem del kit. |
-| kit_id       | bigint | Referencia al identificador del kit. |
-| product_sku  | text   | Referencia al identificador del producto (SKU). |
+La tabla `Orders` almacena información sobre las órdenes realizadas por los usuarios.
 
+| Nombre de la Columna | Tipo de Datos | Descripción |
+|----------------------|---------------|-------------|
+| `order_id`           | `bigint`      | Identificador único de la orden (clave primaria, generado automáticamente). |
+| `order_number`       | `text`        | Número único de la orden. |
+| `user_email`         | `bigint`      | Correo electrónico del usuario que realizó la orden (referencia a `Users`). |
+| `shipping_address`   | `text`        | Dirección de envío de la orden. |
+| `shipping_status`    | `text`        | Estado del envío de la orden. |
+| `order_date`         | `date`        | Fecha en que se realizó la orden. |
+| `delivery_date`      | `date`        | Fecha de entrega de la orden. |
+| `total_price`        | `numeric`     | Precio total de la orden. |
 
+## Tabla: Orderitems
 
-## Relaciones entre las tablas en la base de datos
-- **users**:
-    - No tiene relaciones entrantes, pero es referenciada por:
-        - addresses a través de user_id
-        - orders a través de user_id
-- **addresses**:
-    - Referencia a users a través de user_id
-    - Es referenciada por:
-        - orders a través de shipping_address_id
-- **products**:
-    - No tiene relaciones entrantes, pero es referenciada por:
-        - orderitems a través de product_sku
-        - kititems a través de product_sku
-- **orders**:
-    - Referencia a:
-        - users a través de user_id
-        - addresses a través de shipping_address_id
-    - Es referenciada por:
-        - orderitems a través de order_id
-- **orderitems**:
-    - Referencia a:
-        - orders a través de order_id
-        - products a través de product_sku
-- **partners**:
-    - No tiene relaciones entrantes, pero es referenciada por:
-        - posts a través de author_id
-- **posts**:
-    - Referencia a partners a través de author_id
-- **kits**:
-    - No tiene relaciones entrantes, pero es referenciada por:
-        - kititems a través de kit_id
-- **kititems**:
-    - Referencia a:
-        - kits a través de kit_id
-        - products a través de product_sku
+La tabla `Orderitems` almacena información sobre los ítems de cada orden.
+
+| Nombre de la Columna | Tipo de Datos | Descripción |
+|----------------------|---------------|-------------|
+| `order_item_id`      | `bigint`      | Identificador único del ítem de la orden (clave primaria, generado automáticamente). |
+| `order_number`       | `bigint`      | Número de la orden (referencia a `Orders`). |
+| `product_sku`        | `text`        | Código del producto (referencia a `Products`). |
+| `quantity`           | `int`         | Cantidad del producto en la orden. |
+| `price`              | `numeric`     | Precio del producto en la orden. |
+
+## Tabla: Partners
+
+La tabla `Partners` almacena información sobre los socios registrados en el sistema.
+
+| Nombre de la Columna | Tipo de Datos | Descripción |
+|----------------------|---------------|-------------|
+| `partner_id`         | `bigint`      | Identificador único del socio (clave primaria, generado automáticamente). |
+| `first_name`         | `text`        | Nombre del socio. |
+| `last_name`          | `text`        | Apellido del socio. |
+| `birth_date`         | `date`        | Fecha de nacimiento del socio. |
+| `email`              | `text`        | Correo electrónico del socio (único). |
+| `password`           | `text`        | Contraseña del socio. |
+| `account_status`     | `boolean`     | Estado de la cuenta del socio. |
+| `account_type`       | `text`        | Tipo de cuenta del socio. |
+| `profile_pic`        | `text`        | Ruta de la imagen de perfil del socio. |
+
+## Tabla: Posts
+
+La tabla `Posts` almacena información sobre las publicaciones realizadas por los socios.
+
+| Nombre de la Columna | Tipo de Datos | Descripción |
+|----------------------|---------------|-------------|
+| `post_id`            | `bigint`      | Identificador único de la publicación (clave primaria, generado automáticamente). |
+| `title`              | `text`        | Título de la publicación. |
+| `summary`            | `text`        | Resumen de la publicación. |
+| `date`               | `date`        | Fecha de la publicación. |
+| `category`           | `text`        | Categoría de la publicación. |
+| `partner_email`      | `text`        | Correo electrónico del socio que realizó la publicación (referencia a `Partners`). |
+| `file_path`          | `text`        | Ruta del archivo de la publicación. |
+| `image_path`         | `text`        | Ruta de la imagen de la publicación. |
+
+## Tabla: Kits
+
+La tabla `Kits` almacena información sobre los kits disponibles.
+
+| Nombre de la Columna | Tipo de Datos | Descripción |
+|----------------------|---------------|-------------|
+| `kit_id`             | `bigint`      | Identificador único del kit (clave primaria, generado automáticamente). |
+| `title`              | `text`        | Título del kit. |
+| `description`        | `text`        | Descripción del kit. |
+| `image_path`         | `text`        | Ruta de la imagen del kit. |
+| `special_price`      | `numeric`     | Precio especial del kit. |
+| `rating`             | `double precision` | Calificación del kit. |
+
+## Tabla: Kititems
+
+La tabla `Kititems` almacena información sobre los ítems de cada kit.
+
+| Nombre de la Columna | Tipo de Datos | Descripción |
+|----------------------|---------------|-------------|
+| `kit_item_id`        | `bigint`      | Identificador único del ítem del kit (clave primaria, generado automáticamente). |
+| `kit_id`             | `bigint`      | Identificador del kit (referencia a `Kits`). |
+| `product_sku`        | `text`        | Código del producto (referencia a `Products`). |

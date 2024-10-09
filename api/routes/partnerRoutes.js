@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const moment = require('moment');
 const path = require('path');
 const router = express.Router();
 const partnerController = require('../controllers/partnerController');
@@ -11,8 +12,12 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const { first_name, last_name } = req.body;
+        let pro_pic = `${first_name}_${last_name}`;
+        pro_pic = pro_pic.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        pro_pic = pro_pic.replace(/\s+/g, '-').toLowerCase();
+        pro_pic = pro_pic.replace(/[^a-z0-9\-]/g, ''); // Eliminar caracteres especiales restantes
         const ext = path.extname(file.originalname);
-        cb(null, `${first_name}_${last_name}${ext}`);
+        cb(null, `${moment(Date.now()).format("DD-MM-YYYY")}_${pro_pic}${ext}`);
     },
 });
 

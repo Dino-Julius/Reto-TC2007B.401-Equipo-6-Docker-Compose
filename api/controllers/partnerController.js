@@ -16,7 +16,7 @@ const createPartner = async (req, res) => {
     }
     try {
         const newPartner = await partnerModel.createPartner(partnerData);
-        newPartner.birth_date = moment(newPartner.birth_date).format('YYYY-MM-DD');
+        newPartner.birth_date = moment(newPartner.birth_date).format('DD-MM-YYYY');
         newPartner.profile_pic = newPartner.profile_pic ? `${BASE_URL}${newPartner.profile_pic}` : null;
         res.status(201).json(newPartner);
     } catch (error) {
@@ -40,7 +40,7 @@ const getPartners = async (req, res) => {
         const partners = await partnerModel.getPartners();
         const formattedPartners = partners.map(partner => ({
             ...partner,
-            birth_date: moment(partner.birth_date).format('YYYY-MM-DD'),
+            birth_date: moment(partner.birth_date).format('DD-MM-YYYY'),
             profile_pic: partner.profile_pic ? `${BASE_URL}${partner.profile_pic}` : null
         }));
         res.status(200).json(formattedPartners);
@@ -57,7 +57,7 @@ const getPartnerById = async (req, res) => {
     try {
         const partner = await partnerModel.getPartnerById(partner_id);
         if (partner) {
-            partner.birth_date = moment(partner.birth_date).format('YYYY-MM-DD');
+            partner.birth_date = moment(partner.birth_date).format('DD-MM-YYYY');
             partner.profile_pic = partner.profile_pic ? `${BASE_URL}${partner.profile_pic}` : null;
             res.status(200).json(partner);
         } else {
@@ -76,7 +76,7 @@ const getPartnerByEmail = async (req, res) => {
     try {
         const partner = await partnerModel.getPartnerByEmail(email);
         if (partner) {
-            partner.birth_date = moment(partner.birth_date).format('YYYY-MM-DD');
+            partner.birth_date = moment(partner.birth_date).format('DD-MM-YYYY');
             partner.profile_pic = partner.profile_pic ? `${BASE_URL}${partner.profile_pic}` : null;
             res.status(200).json(partner);
         } else {
@@ -112,13 +112,13 @@ const updatePartnerByEmail = async (req, res) => {
                     }
                 });
             }
-            updatedPartner.birth_date = moment(updatedPartner.birth_date).format('YYYY-MM-DD');
+            updatedPartner.birth_date = moment(updatedPartner.birth_date).format('DD-MM-YYYY');
             updatedPartner.profile_pic = updatedPartner.profile_pic ? `${BASE_URL}${updatedPartner.profile_pic}` : null;
             res.status(200).json(updatedPartner);
         } else {
             partnerData.profile_pic = partner.profile_pic;
             const updatedPartner = await partnerModel.updatePartnerByEmail(email, partnerData);
-            updatedPartner.birth_date = moment(updatedPartner.birth_date).format('YYYY-MM-DD');
+            updatedPartner.birth_date = moment(updatedPartner.birth_date).format('DD-MM-YYYY');
             updatedPartner.profile_pic = updatedPartner.profile_pic ? `${BASE_URL}${updatedPartner.profile_pic}` : null;
             res.status(200).json(updatedPartner);
         }

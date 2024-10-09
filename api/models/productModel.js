@@ -28,6 +28,12 @@ const getProductBySku = async (sku) => {
     return res.rows[0];
 };
 
+// Función para obtener todos los productos habilitados
+const getEnabledProducts = async () => {
+    const res = await pool.query('SELECT * FROM products WHERE enabled = true');
+    return res.rows;
+};
+
 /**
  * Actualiza un producto por su SKU.
  */
@@ -36,6 +42,15 @@ const updateProductBySku = async (sku, productData) => {
     const res = await pool.query(
         'UPDATE products SET name = $1, price = $2, description = $3, dimensions = $4, image_path = $5, category = $6, rating = $7, disponibility = $8 WHERE sku = $9 RETURNING *',
         [name, price, description, dimensions, image_path, category, rating, disponibility, sku]
+    );
+    return res.rows[0];
+};
+
+// Función para habilitar/deshabilitar un producto por su SKU
+const toggleProductStatusBySku = async (sku, disponibility) => {
+    const res = await pool.query(
+        'UPDATE products SET disponibility = $1 WHERE sku = $2 RETURNING *',
+        [disponibility, sku]
     );
     return res.rows[0];
 };
@@ -52,6 +67,8 @@ module.exports = {
     createProduct,
     getProducts,
     getProductBySku,
+    getEnabledProducts,
     updateProductBySku,
+    toggleProductStatusBySku,
     deleteProductBySku,
 };
