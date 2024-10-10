@@ -22,6 +22,27 @@ const createPaymentIntent = async (req, res) => {
     }
 };
 
+// Nueva función para manejar las solicitudes POST a /receive-order
+const reciveOrder = async (req, res) => {
+    const { address, email, items } = req.body;
+
+    if (!address || !email || !items) {
+        // Si falta algún dato, enviar una respuesta de error
+        return res.status(400).send({ message: "Missing required fields" });
+    }
+
+    console.log("Received order:");
+    console.log("Address:", address);
+    console.log("Email:", email);
+    console.log("Items:", items);
+
+    // Procesar la orden aquí (por ejemplo, almacenar en la base de datos)
+
+    // Enviar una respuesta de vuelta al cliente
+    res.status(200).send({ message: "Order received successfully!" });
+};
+
 module.exports = {
     createPaymentIntent,
+    reciveOrder,
 };
