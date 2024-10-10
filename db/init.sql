@@ -50,7 +50,7 @@ create table if not exists Products (
 create table if not exists Orders (
     order_id bigint primary key generated always as identity,
     order_number text unique,
-    user_email bigint references users (email),
+    user_email text references users (email),
     shipping_address text,
     shipping_status text,
     order_date date,
@@ -61,7 +61,7 @@ create table if not exists Orders (
 -- Table: orderitems
 create table if not exists Orderitems (
     order_item_id bigint primary key generated always as identity,
-    order_number bigint references orders (order_number),
+    order_number text references orders (order_number),
     product_sku text references products (sku),
     quantity int,
     price numeric

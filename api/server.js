@@ -10,12 +10,21 @@ const addressRoutes = require('./routes/addressRoutes');
 const postRoutes = require('./routes/postRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const orderItemRoutes = require('./routes/orderItemRoutes');
+const stripeRoutes = require('./routes/stripeRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Configuración CORS
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN,
+    optionsSuccessStatus: 200,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type,Authorization"
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // Rutas
@@ -26,6 +35,7 @@ app.use('/api', addressRoutes);
 app.use('/api', postRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', orderItemRoutes);
+app.use('/api', stripeRoutes);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
