@@ -1,10 +1,10 @@
--- Crear el usuario
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'zazil') THEN
-        CREATE USER zazil WITH PASSWORD 'z4Z1l';
-    END IF;
-END $$;
+-- -- Crear el usuario
+-- DO $$
+-- BEGIN
+--     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'zazil') THEN
+--         CREATE USER zazil WITH PASSWORD 'z4Z1l';
+--     END IF;
+-- END $$;
 
 -- Crear la base de datos solo si no existe
 DO $$

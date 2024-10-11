@@ -1,4 +1,16 @@
 services:
+    web:
+        build:
+            context: ./web
+        ports:
+            - "3001:3001"
+        depends_on:
+            - api
+        env_file:
+            - .env
+        volumes:
+            - ./web/build:/usr/src/app/build
+        
     api:
         build:
             context: ./api
@@ -17,18 +29,6 @@ services:
             - ./media/zazil_users:/usr/share/nginx/html/media/zazil_users
             - ./media/zazil_partners:/usr/share/nginx/html/media/zazil_partners
 
-    web:
-        build:
-            context: ./web
-        ports:
-            - "3001:3001"
-        depends_on:
-            - api
-        env_file:
-            - .env
-        volumes:
-            - ./web/build:/usr/src/app/build
-
     nginx:
         image: nginx:latest
         ports:
@@ -43,7 +43,6 @@ services:
             - ./media/zazil_partners:/usr/share/nginx/html/media/zazil_partners
         depends_on:
             - web
-            - api
 
     db:
         image: postgres:14
@@ -58,6 +57,8 @@ services:
             - POSTGRES_PORT=${DB_PORT}
         env_file:
             - .env
+        ports:
+            - "5432:5432"
 
 volumes:
     db_data:
