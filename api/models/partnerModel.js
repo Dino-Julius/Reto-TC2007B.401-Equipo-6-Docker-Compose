@@ -12,7 +12,7 @@ const createPartner = async (partnerData) => {
 
 // Función para obtener todos los socios
 const getPartners = async () => {
-    const res = await pool.query('SELECT * FROM partners');
+    const res = await pool.query('SELECT first_name, last_name, birth_date, email, account_status, account_type, profile_pic FROM partners');
     return res.rows;
 };
 

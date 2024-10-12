@@ -72,8 +72,8 @@ create or replace function update_order_total() returns trigger as $$
 BEGIN
   -- Calculate the new total price
   UPDATE orders
-  SET total_price = (SELECT SUM(price * quantity) FROM orderitems WHERE order_id = NEW.order_id)
-  WHERE order_id = NEW.order_id;
+  SET total_price = (SELECT SUM(price * quantity) FROM orderitems WHERE order_number = NEW.order_number)
+  WHERE order_number = NEW.order_number;
   RETURN NEW;
 END;
 $$ language plpgsql;

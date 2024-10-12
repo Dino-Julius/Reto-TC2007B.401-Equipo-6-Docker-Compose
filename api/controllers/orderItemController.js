@@ -13,10 +13,10 @@ const createOrderItem = async (req, res) => {
 };
 
 // Obtener todos los items de una orden
-const getOrderItemsByOrderId = async (req, res) => {
-    const { order_id } = req.params;
+const getOrderItemsByOrderNumber = async (req, res) => {
+    const { order_number } = req.params;
     try {
-        const orderItems = await orderItemModel.getOrderItemsByOrderId(order_id);
+        const orderItems = await orderItemModel.getOrderItemsByOrderNumber(order_number);
         res.status(200).json(orderItems);
     } catch (error) {
         console.error('Error al obtener los items de la orden:', error);
@@ -59,7 +59,7 @@ const deleteOrderItemById = async (req, res) => {
 
 module.exports = {
     createOrderItem,
-    getOrderItemsByOrderId,
+    getOrderItemsByOrderNumber,
     updateOrderItemById,
     deleteOrderItemById,
 };
