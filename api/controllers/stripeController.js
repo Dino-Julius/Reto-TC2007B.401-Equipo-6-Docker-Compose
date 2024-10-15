@@ -8,7 +8,7 @@ const createPaymentIntent = async (req, res) => {
     try {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amount,
-            currency: 'usd',
+            currency: 'mxn',
             payment_method: payment_method,
             confirmation_method: 'automatic',
             confirm: true,
