@@ -12,7 +12,12 @@ const createOrderItem = async (orderItemData) => {
 
 // Función para obtener todos los items de una orden
 const getOrderItemsByOrderNumber = async (order_number) => {
-    const res = await pool.query('SELECT * FROM Orderitems WHERE order_number = $1', [order_number]);
+    const res = await pool.query(`
+        SELECT oi.*, p.name AS product_name
+        FROM Orderitems oi
+        JOIN Products p ON oi.product_sku = p.sku
+        WHERE oi.order_number = $1
+    `, [order_number]);
     return res.rows;
 };
 

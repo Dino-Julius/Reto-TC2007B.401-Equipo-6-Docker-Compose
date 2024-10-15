@@ -1,5 +1,6 @@
 const orderModel = require('../models/orderModel');
 const { createOrderItem } = require('../models/orderItemModel');
+const moment = require('moment');
 
 // Crear una nueva orden
 const createOrder = async (req, res) => {
@@ -41,10 +42,16 @@ const createOrderWithItems = async (req, res) => {
 };
 
 // Obtener todas las órdenes
-const getAllOrders = async (req, res) => {
+const getOrders = async (req, res) => {
     try {
         const orders = await orderModel.getAllOrders();
-        res.status(200).json(orders);
+        const formattedOrders = orders.map(order => ({
+            ...order,
+            shipping_status: order.shipping_status.charAt(0).toUpperCase() + order.shipping_status.slice(1),
+            order_date: moment(order.order_date).format('DD-MM-YYYY'),
+            delivery_date: moment(order.delivery_date).format('DD-MM-YYYY'),
+        }));
+        res.status(200).json(formattedOrders);
     } catch (error) {
         console.error('Error al obtener las órdenes:', error);
         res.status(500).json({ error: 'Error al obtener las órdenes' });
@@ -99,7 +106,7 @@ const getOrdersByUserEmail = async (req, res) => {
 module.exports = {
     createOrder,
     createOrderWithItems,
-    getAllOrders,
+    getOrders,
     getOrderById,
     updateOrderById,
     getOrdersByUserEmail,

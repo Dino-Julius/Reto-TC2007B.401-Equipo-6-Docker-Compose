@@ -1,4 +1,5 @@
 const orderItemModel = require('../models/orderItemModel');
+const { getProductBySku } = require('./productController');
 
 // Crear un nuevo item de orden
 const createOrderItem = async (req, res) => {

@@ -61,6 +61,7 @@ const getUserByEmail = async (req, res) => {
     try {
         const user = await userModel.getUserByEmail(email);
         if (user) {
+            user.gender = user.gender.charAt(0).toUpperCase() + user.gender.slice(1);
             user.birth_date = moment(user.birth_date).format('DD-MM-YYYY');
             user.profile_pic = user.profile_pic ? `${BASE_URL}${user.profile_pic}` : null;
             res.status(200).json(user);
