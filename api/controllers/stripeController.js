@@ -1,4 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const orderModel = require('../models/orderModel');
+const orderItemModel = require('../models/orderItemModel');
 const STRIPE_RETURN_url = process.env.STRIPE_RETURN_url;
 
 // Crear un PaymentIntent
@@ -36,10 +38,36 @@ const reciveOrder = async (req, res) => {
     console.log("Email:", email);
     console.log("Items:", items);
 
-    // Procesar la orden aquí (por ejemplo, almacenar en la base de datos)
+    try {
+        // Crea la orden
+        const orderData = {
+            order_number: `ORD-${Date.now()}`, // Generar un número de orden único
+            user_email: email,
+            shipping_address: address,
+            shipping_status: 'pending',
+            order_date: new Date(),
+            delivery_date: null,
+            total_price: items.reduce((total, item) => total + item.price * item.quantity, 0) // Calcular el precio total
+        };
 
-    // Enviar una respuesta de vuelta al cliente
-    res.status(200).send({ message: "Order received successfully!" });
+        const newOrder = await orderModel.createOrder(orderData);
+
+        // Crear los items de la orden
+        for (const item of items) {
+            const orderItemData = {
+                order_number: newOrder.order_number,
+                sku: item.sku,
+                quantity: item.quantity,
+                price: item.price // Asegúrate de que el precio esté incluido en los items
+            };
+            await orderItemModel.createOrderItem(orderItemData);
+        }
+        // Enviar una respuesta de vuelta al cliente
+        res.status(200).send({ message: "Order received and processed successfully!" });
+    } catch (error) {
+        // Enviar una respuesta de vuelta al cliente
+        res.status(500).send({ message: "Error processing order" });
+    }
 };
 
 module.exports = {

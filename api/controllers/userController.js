@@ -37,6 +37,29 @@ const createUser = async (req, res) => {
     }
 };
 
+// Controlador para el login de usuario por su correo electrónico
+const loginUserByEmail = async (req, res) => {
+    const { email } = req.params;
+    const { password } = req.body;
+
+    try {
+        const user = await userModel.getUserByEmail(email);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (isPasswordValid) {
+            return res.status(200).json({ success: true });
+        } else {
+            return res.status(401).json({ success: false, message: 'Invalid password' });
+        }
+    } catch (error) {
+        console.error('Error al hacer login del usuario:', error);
+        res.status(500).json({ success: false, message: 'Error al hacer login del usuario' });
+    }
+};
+
 /**
  * Controlador para obtener todos los usuarios
  */
@@ -169,6 +192,7 @@ const deleteUserByEmail = async (req, res) => {
 
 module.exports = {
     createUser,
+    loginUserByEmail,
     getUsers,
     getUserByEmail,
     updateUserByEmail,

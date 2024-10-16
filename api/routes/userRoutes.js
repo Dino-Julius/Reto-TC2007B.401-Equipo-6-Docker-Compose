@@ -28,6 +28,7 @@ const upload = multer({ storage });
 
 // Definir las rutas para la API de usuarios
 router.post('/users', userController.createUser); // Crear un nuevo usuario sin carga de imagen
+router.post('/user/login/:email', userController.loginUserByEmail); // Login de usuario por su correo electrónico
 router.get('/users', userController.getUsers); // Obtener todos los usuarios
 router.get('/users/:email', userController.getUserByEmail); // Obtener un usuario por su correo electrónico
 router.put('/users/:email', upload.single('profile_pic'), userController.updateUserByEmail); // Actualizar un usuario por su correo electrónico
