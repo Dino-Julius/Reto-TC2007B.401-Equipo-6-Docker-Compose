@@ -1,4 +1,3 @@
-// api/test/dbConnectionTest.mjs
 import pkg from 'pg';
 const { Client } = pkg;
 import * as chai from 'chai';
@@ -7,6 +6,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+/**
+ * Test to check if the database connection is successful
+ * @return {void}
+ * @throws {Error} Throws error if connection to the database fails
+ */
 describe('Database Connection', () => {
   it('should connect to the database successfully', async () => {
     const client = new Client({

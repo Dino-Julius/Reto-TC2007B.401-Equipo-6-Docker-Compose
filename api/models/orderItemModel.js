@@ -21,6 +21,19 @@ const getOrderItemsByOrderNumber = async (order_number) => {
     return res.rows;
 };
 
+// Función para obtener los 5 productos más vendidos
+const getTopProducts = async () => {
+    const res = await pool.query(`
+        SELECT oi.product_sku, p.name AS product_name, COUNT(oi.product_sku) AS count
+        FROM Orderitems oi
+        JOIN Products p ON oi.product_sku = p.sku
+        GROUP BY oi.product_sku, p.name
+        ORDER BY count DESC
+        LIMIT 5
+    `);
+    return res.rows;
+};
+
 // Función para actualizar un item de orden por su ID
 const updateOrderItemById = async (order_item_id, orderItemData) => {
     const { order_number, product_sku, quantity, price } = orderItemData;
@@ -40,6 +53,7 @@ const deleteOrderItemById = async (order_item_id) => {
 module.exports = {
     createOrderItem,
     getOrderItemsByOrderNumber,
+    getTopProducts,
     updateOrderItemById,
     deleteOrderItemById,
 };

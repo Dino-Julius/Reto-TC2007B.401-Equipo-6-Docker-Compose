@@ -30,7 +30,8 @@ create table if not exists Users (
     phone text,
     email text unique,
     password text,
-    profile_pic text
+    profile_pic text,
+    shipping_address text
 );
 
 -- Table: products

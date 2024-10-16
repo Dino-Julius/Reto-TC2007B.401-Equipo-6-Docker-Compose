@@ -25,6 +25,17 @@ const getOrderItemsByOrderNumber = async (req, res) => {
     }
 };
 
+// Obtener los 5 productos más vendidos
+const getTopProducts = async (req, res) => {
+    try {
+        const topProducts = await orderItemModel.getTopProducts();
+        res.status(200).json(topProducts);
+    } catch (error) {
+        console.error('Error al obtener los productos más vendidos:', error);
+        res.status(500).json({ error: 'Error al obtener los productos más vendidos' });
+    }
+};
+
 // Actualizar un item de orden por su ID
 const updateOrderItemById = async (req, res) => {
     const { order_item_id } = req.params;
@@ -61,6 +72,7 @@ const deleteOrderItemById = async (req, res) => {
 module.exports = {
     createOrderItem,
     getOrderItemsByOrderNumber,
+    getTopProducts,
     updateOrderItemById,
     deleteOrderItemById,
 };
