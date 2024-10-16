@@ -37,7 +37,9 @@ const createUser = async (req, res) => {
     }
 };
 
-// Controlador para el login de usuario por su correo electrónico
+/**
+ * Verificar las credenciales del usuario
+ */
 const loginUserByEmail = async (req, res) => {
     const { email } = req.params;
     const { password } = req.body;
@@ -50,8 +52,10 @@ const loginUserByEmail = async (req, res) => {
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (isPasswordValid) {
+            console.log('User logged in:', email);
             return res.status(200).json({ success: true });
         } else {
+            console.log("", email);
             return res.status(401).json({ success: false, message: 'Invalid password' });
         }
     } catch (error) {

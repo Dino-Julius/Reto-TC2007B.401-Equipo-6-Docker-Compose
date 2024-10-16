@@ -10,18 +10,9 @@ const postRoutes = require('./routes/postRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const orderItemRoutes = require('./routes/orderItemRoutes');
 const stripeRoutes = require('./routes/stripeRoutes');
-// const CORS_ORIGIN = process.env.CORS_ORIGIN;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// Configuración CORS
-// const corsOptions = {
-//     origin: CORS_ORIGIN,
-//     optionsSuccessStatus: 200,
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//     allowedHeaders: "Content-Type,Authorization"
-// };
 
 // Middleware
 app.use(cors());
