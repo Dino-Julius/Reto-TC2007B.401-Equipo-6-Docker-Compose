@@ -18,6 +18,7 @@ const createOrderWithItems = async (req, res) => {
     const { orderData, orderItems } = req.body;
 
     if (!orderData || !orderItems) {
+        console.log(orderData, orderItems);
         return res.status(400).json({ error: 'Faltan datos de la orden o de los items de la orden' });
     }
 

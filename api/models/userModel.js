@@ -4,31 +4,8 @@ const pool = require("./db");
  * Modelo para crear un nuevo usuario
  */
 const createUser = async (userData) => {
-    const {
-        first_name,
-        last_name,
-        birth_date,
-        gender,
-        phone,
-        email,
-        password,
-        profile_pic,
-        shipping_address,
-    } = userData;
-    const res = await pool.query(
-        "INSERT INTO Users (first_name, last_name, birth_date, gender, phone, email, password, profile_pic, shipping_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
-        [
-            first_name,
-            last_name,
-            birth_date,
-            gender,
-            phone,
-            email,
-            password,
-            profile_pic,
-            shipping_address,
-        ]
-    );
+    const { first_name, last_name, birth_date, gender, phone, email, password, profile_pic, shipping_address } = userData;
+    const res = await pool.query("INSERT INTO Users (first_name, last_name, birth_date, gender, phone, email, password, profile_pic, shipping_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *", [first_name, last_name, birth_date, gender, phone, email, password, profile_pic, shipping_address]);
     return res.rows[0];
 };
 
@@ -36,11 +13,10 @@ const createUser = async (userData) => {
  * Modelo para obtener todos los usuarios
  */
 const getUsers = async () => {
-    const res = await pool.query(
-        "SELECT first_name, last_name, birth_date, gender, phone, email, profile_pic, shipping_address FROM Users"
-    );
+    const res = await pool.query("SELECT first_name, last_name, birth_date, gender, phone, email, profile_pic, shipping_address FROM Users");
     return res.rows;
 };
+
 
 /**
  * Modelo para obtener un usuario por su correo electrónico (verificación)
