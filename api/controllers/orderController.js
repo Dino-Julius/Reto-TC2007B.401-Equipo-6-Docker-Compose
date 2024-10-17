@@ -51,9 +51,6 @@ const createOrderWithItems = async (req, res) => {
             await orderItemModel.createOrderItem(orderItemData);
         }
 
-        // Actualizar el precio total de la orden
-        await orderModel.updateOrderTotalPrice(newOrder.order_id, totalPrice);
-
         res.status(201).json(newOrder);
     } catch (error) {
         console.error('Error processing order:', error);
