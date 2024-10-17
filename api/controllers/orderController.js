@@ -1,6 +1,6 @@
 const orderModel = require('../models/orderModel');
-// const { createOrderItem } = require('../models/orderItemModel');
 const orderItemModel = require('../models/orderItemModel');
+const productModel = require('../models/productModel');
 const moment = require('moment');
 
 // Crear una nueva orden
@@ -16,28 +16,51 @@ const createOrder = async (req, res) => {
 };
 
 const createOrderWithItems = async (req, res) => {
-    const { orderData, items } = req.body;
+    const { address, email, items } = req.body;
 
     try {
         // Crear la orden
-        const order = await orderModel.createOrder(orderData);
+        const orderData = {
+            order_number: `ORD-${Date.now()}`, // Generar un número de orden único
+            user_email: email,
+            shipping_address: address,
+            shipping_status: 'pending',
+            order_date: new Date(),
+            delivery_date: null,
+            total_price: 0 // Inicialmente 0, se actualizará después
+        };
 
-        // Crear los items de la orden
+        const newOrder = await orderModel.createOrder(orderData);
+
+        // Crear los items de la orden y calcular el total
+        let totalPrice = 0;
         for (const item of items) {
-            await orderItemModel.createOrderItem({
-                order_number: order.order_number,
-                product_sku: item.product_sku,
+            const product = await productModel.getProductBySku(item.sku); // Obtener el producto por SKU
+            const itemPrice = product.price * item.quantity;
+            totalPrice += itemPrice;
+
+            const orderItemData = {
+                order_number: newOrder.order_number,
+                sku: item.sku,
                 quantity: item.quantity,
-                price: item.price
-            });
+                price: product.price // Asegúrate de que el precio esté incluido en los items
+            };
+            await orderItemModel.createOrderItem(orderItemData);
         }
 
-        res.status(201).json(order);
+        // Actualizar el precio total de la orden
+        await orderModel.updateOrderById(newOrder.order_id, { total_price: totalPrice });
+
+        // Enviar una respuesta de vuelta al cliente
+        console.log('Order processed successfully:', newOrder);
+        res.status(200).send({ message: "Order received and processed successfully!" });
     } catch (error) {
-        console.error('Error al crear la orden con items:', error);
-        res.status(500).json({ error: 'Error al crear la orden con items' });
+        // Enviar una respuesta de vuelta al cliente
+        console.error('Error processing order:', error);
+        res.status(500).send({ message: "Error processing order" });
     }
 };
+
 
 
 // const createOrderWithItems = async (req, res) => {

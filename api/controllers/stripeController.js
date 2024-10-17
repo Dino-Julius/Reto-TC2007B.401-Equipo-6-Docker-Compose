@@ -1,6 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const orderModel = require('../models/orderModel');
-const orderItemModel = require('../models/orderItemModel');
+// const orderModel = require('../models/orderModel');
+// const orderItemModel = require('../models/orderItemModel');
+const orderController = require('./orderController');
 const STRIPE_RETURN_url = process.env.STRIPE_RETURN_url;
 
 // Crear un PaymentIntent
@@ -36,32 +37,8 @@ const reciveOrder = async (req, res) => {
     console.log(req.body);
 
     try {
-        // Crea la orden
-        const orderData = {
-            order_number: `ORD-${Date.now()}`, // Generar un número de orden único
-            user_email: email,
-            shipping_address: address,
-            shipping_status: 'pending',
-            order_date: new Date(),
-            delivery_date: new Date(),
-            total_price: items.reduce((total, item) => total + item.price * item.quantity, 0) // Calcular el precio total
-        };
-
-        const newOrder = await orderModel.createOrder(orderData);
-
-        // Crear los items de la orden
-        for (const item of items) {
-            const orderItemData = {
-                order_number: newOrder.order_number,
-                sku: item.sku,
-                quantity: item.quantity,
-                price: item.price // Asegúrate de que el precio esté incluido en los items
-            };
-            await orderItemModel.createOrderItem(orderItemData);
-        }
-        // Enviar una respuesta de vuelta al cliente
-        console.log('Order processed successfully:', newOrder);
-        res.status(200).send({ message: "Order received and processed successfully!" });
+        // Llamar a createOrderWithItems del controlador de órdenes
+        await orderController.createOrderWithItems(req, res);
     } catch (error) {
         // Enviar una respuesta de vuelta al cliente
         console.error('Error processing order:', error);
