@@ -18,18 +18,17 @@ const createOrder = async (req, res) => {
 const createOrderWithItems = async (req, res) => {
     const { address, email, items } = req.body;
 
-    try {
-        // Crear la orden
-        const orderData = {
-            order_number: `ORD-${Date.now()}`, // Generar un número de orden único
-            user_email: email,
-            shipping_address: address,
-            shipping_status: 'pending',
-            order_date: Date.now(),
-            delivery_date: null,
-            total_price: 0 // Inicialmente 0, se actualizará después
-        };
+    const orderData = {
+        order_number: generateOrderNumber(),
+        user_email: email,
+        shipping_address: address,
+        shipping_status: 'pending',
+        order_date: moment().format('YYYY-MM-DD HH:mm:ss'), // Formato de fecha/hora adecuado
+        delivery_date: moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss'), // Ejemplo de fecha de entrega
+        total_price: 0 // Se actualizará más adelante
+    };
 
+    try {
         const newOrder = await orderModel.createOrder(orderData);
 
         // Crear los items de la orden y calcular el total
@@ -41,7 +40,7 @@ const createOrderWithItems = async (req, res) => {
 
             const orderItemData = {
                 order_number: newOrder.order_number,
-                sku: product.product_sku,
+                sku: item.sku,
                 quantity: item.quantity,
                 price: product.price // Asegúrate de que el precio esté incluido en los items
             };
@@ -49,18 +48,14 @@ const createOrderWithItems = async (req, res) => {
         }
 
         // Actualizar el precio total de la orden
-        await orderModel.updateOrderById(newOrder.order_id, { total_price: totalPrice });
+        await orderModel.updateOrderTotalPrice(newOrder.order_id, totalPrice);
 
-        // Enviar una respuesta de vuelta al cliente
-        console.log('Order processed successfully:', newOrder);
-        res.status(200).send({ message: "Order received and processed successfully!" });
+        res.status(201).json(newOrder);
     } catch (error) {
-        // Enviar una respuesta de vuelta al cliente
         console.error('Error processing order:', error);
         res.status(500).send({ message: "Error processing order" });
     }
 };
-
 
 
 // const createOrderWithItems = async (req, res) => {
