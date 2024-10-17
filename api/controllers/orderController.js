@@ -25,7 +25,7 @@ const createOrderWithItems = async (req, res) => {
             user_email: email,
             shipping_address: address,
             shipping_status: 'pending',
-            order_date: Date(),
+            order_date: new Date(),
             delivery_date: null,
             total_price: 0 // Inicialmente 0, se actualizará después
         };
