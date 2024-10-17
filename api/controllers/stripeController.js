@@ -33,10 +33,7 @@ const reciveOrder = async (req, res) => {
         return res.status(400).send({ message: "Missing required fields" });
     }
 
-    console.log("Received order:");
-    console.log("Address:", address);
-    console.log("Email:", email);
-    console.log("Items:", items);
+    console.log(req.body);
 
     try {
         // Crea la orden
@@ -63,9 +60,11 @@ const reciveOrder = async (req, res) => {
             await orderItemModel.createOrderItem(orderItemData);
         }
         // Enviar una respuesta de vuelta al cliente
+        console.log('Order processed successfully:', newOrder);
         res.status(200).send({ message: "Order received and processed successfully!" });
     } catch (error) {
         // Enviar una respuesta de vuelta al cliente
+        console.error('Error processing order:', error);
         res.status(500).send({ message: "Error processing order" });
     }
 };
