@@ -1,5 +1,6 @@
 const orderModel = require('../models/orderModel');
-const { createOrderItem } = require('../models/orderItemModel');
+// const { createOrderItem } = require('../models/orderItemModel');
+const orderItemModel = require('../models/orderItemModel');
 const moment = require('moment');
 
 // Crear una nueva orden
@@ -15,32 +16,57 @@ const createOrder = async (req, res) => {
 };
 
 const createOrderWithItems = async (req, res) => {
-    const { orderData, orderItems } = req.body;
-
-    if (!orderData || !orderItems) {
-        console.log(orderData, orderItems);
-        return res.status(400).json({ error: 'Faltan datos de la orden o de los items de la orden' });
-    }
+    const { orderData, items } = req.body;
 
     try {
         // Crear la orden
-        const newOrder = await orderModel.createOrder(orderData);
+        const order = await orderModel.createOrder(orderData);
 
         // Crear los items de la orden
-        for (const item of orderItems) {
-            item.order_number = newOrder.order_number;
-            await createOrderItem(item);
+        for (const item of items) {
+            await orderItemModel.createOrderItem({
+                order_number: order.order_number,
+                product_sku: item.product_sku,
+                quantity: item.quantity,
+                price: item.price
+            });
         }
 
-        // Obtener la orden completa con los items
-        const completeOrder = await orderModel.getOrderById(newOrder.order_id);
-
-        res.status(201).json(completeOrder);
+        res.status(201).json(order);
     } catch (error) {
-        console.error('Error creating order with items:', error);
-        res.status(500).send({ error: error.message });
+        console.error('Error al crear la orden con items:', error);
+        res.status(500).json({ error: 'Error al crear la orden con items' });
     }
 };
+
+
+// const createOrderWithItems = async (req, res) => {
+//     const { orderData, orderItems } = req.body;
+
+//     if (!orderData || !orderItems) {
+//         console.log(orderData, orderItems);
+//         return res.status(400).json({ error: 'Faltan datos de la orden o de los items de la orden' });
+//     }
+
+//     try {
+//         // Crear la orden
+//         const newOrder = await orderModel.createOrder(orderData);
+
+//         // Crear los items de la orden
+//         for (const item of orderItems) {
+//             item.order_number = newOrder.order_number;
+//             await createOrderItem(item);
+//         }
+
+//         // Obtener la orden completa con los items
+//         const completeOrder = await orderModel.getOrderById(newOrder.order_id);
+
+//         res.status(201).json(completeOrder);
+//     } catch (error) {
+//         console.error('Error creating order with items:', error);
+//         res.status(500).send({ error: error.message });
+//     }
+// };
 
 // Obtener todas las órdenes
 const getOrders = async (req, res) => {

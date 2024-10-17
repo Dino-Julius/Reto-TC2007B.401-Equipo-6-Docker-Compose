@@ -1,6 +1,15 @@
 const pool = require('./db');
 
 // Función para crear un nuevo item de orden
+// const createOrderItem = async (orderItemData) => {
+//     const { order_number, product_sku, quantity, price } = orderItemData;
+//     const res = await pool.query(
+//         'INSERT INTO Orderitems (order_number, product_sku, quantity, price) VALUES ($1, $2, $3, $4) RETURNING *',
+//         [order_number, product_sku, quantity, price]
+//     );
+//     return res.rows[0];
+// };
+
 const createOrderItem = async (orderItemData) => {
     const { order_number, product_sku, quantity, price } = orderItemData;
     const res = await pool.query(

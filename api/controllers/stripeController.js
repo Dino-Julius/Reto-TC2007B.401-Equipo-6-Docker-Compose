@@ -43,7 +43,7 @@ const reciveOrder = async (req, res) => {
             shipping_address: address,
             shipping_status: 'pending',
             order_date: new Date(),
-            delivery_date: null,
+            delivery_date: new Date(),
             total_price: items.reduce((total, item) => total + item.price * item.quantity, 0) // Calcular el precio total
         };
 

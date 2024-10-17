@@ -1,6 +1,15 @@
 const pool = require('./db');
 
 // Función para crear una nueva orden
+// const createOrder = async (orderData) => {
+//     const { order_number, user_email, shipping_address, shipping_status, order_date, delivery_date, total_price } = orderData;
+//     const res = await pool.query(
+//         'INSERT INTO Orders (order_number, user_email, shipping_address, shipping_status, order_date, delivery_date, total_price) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+//         [order_number, user_email, shipping_address, shipping_status, order_date, delivery_date, total_price]
+//     );
+//     return res.rows[0];
+// };
+
 const createOrder = async (orderData) => {
     const { order_number, user_email, shipping_address, shipping_status, order_date, delivery_date, total_price } = orderData;
     const res = await pool.query(
