@@ -15,6 +15,10 @@ const createOrder = async (req, res) => {
     }
 };
 
+const generateOrderNumber = () => {
+    return `ORD-${Date.now()}`;
+};
+
 const createOrderWithItems = async (req, res) => {
     const { address, email, items } = req.body;
 
@@ -40,7 +44,7 @@ const createOrderWithItems = async (req, res) => {
 
             const orderItemData = {
                 order_number: newOrder.order_number,
-                sku: item.sku,
+                product_sku: item.sku,
                 quantity: item.quantity,
                 price: product.price // Asegúrate de que el precio esté incluido en los items
             };
