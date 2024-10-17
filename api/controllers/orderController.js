@@ -25,7 +25,7 @@ const createOrderWithItems = async (req, res) => {
             user_email: email,
             shipping_address: address,
             shipping_status: 'pending',
-            order_date: new Date(),
+            order_date: Date(),
             delivery_date: null,
             total_price: 0 // Inicialmente 0, se actualizará después
         };
@@ -41,7 +41,7 @@ const createOrderWithItems = async (req, res) => {
 
             const orderItemData = {
                 order_number: newOrder.order_number,
-                sku: item.sku,
+                sku: product.sku,
                 quantity: item.quantity,
                 price: product.price // Asegúrate de que el precio esté incluido en los items
             };
